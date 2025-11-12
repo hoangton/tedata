@@ -1,3 +1,11 @@
+## env
+uv python install 3.12
+uv venv -p 3.12 .venv
+uv pip install tedata
+python3 -m pip install tedata
+python3 -m tedata -h
+python3 -m tedata --head --method mixed "https://tradingeconomics.com/united-states/ism-manufacturing-new-orders"
+
 ## tedata
 
 Download data from Trading Economics without an account or API key. Trading Economics API costs upwards of $100 USD per month for data access. Using this you will be able to download a large part of the data available on the site for free. Trading Economics has one of the greatest repositories of macroeconomic data on Earth. Download data series into a Jupyter notebook environment or save series directly to an excel file (.xlsx) using command line. This utilizes Selenium and BeautifulSoup4 to scrape data from charts. Runs fine on linux, mac OS or windows.

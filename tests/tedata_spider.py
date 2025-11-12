@@ -31,16 +31,34 @@ for country in countries:
             scraped = ted.scrape_chart(country=country, indicator=indicator, use_existing_driver=False, headless=False)
             # export_data expects a filename base (it will add .xlsx)
             filename_base = f"{country}_{indicator}"
+            exported = False
             try:
                 scraped.export_data(filename=filename_base)
                 logging.info(f"Exported: {filename_base}.xlsx")
+                exported = True
             except Exception:
                 # try alternate signature that some implementations may use
                 try:
                     scraped.export_data(savePath=os.getcwd(), filename=filename_base)
                     logging.info(f"Exported via savePath: {filename_base}.xlsx")
+                    exported = True
                 except Exception:
                     logging.exception(f"Failed to export data for {country} - {indicator}")
+
+            # If export succeeded, clean up drivers/scrapers for this run to avoid stale webdriver objects.
+            if exported:
+                try:
+                    # Attempt to close this specific scraper if it exposes a close method
+                    try:
+                        if scraped is not None and hasattr(scraped, 'close') and callable(scraped.close):
+                            scraped.close()
+                    except Exception:
+                        logging.debug("scraped.close() raised an error during cleanup", exc_info=True)
+
+                    # Close any remaining active webdriver instances and scrapers
+                    ted.find_active_drivers(close_all_drivers=True, close__all_scrapers=True)
+                except Exception:
+                    logging.exception(f"Failed to cleanup drivers after exporting {filename_base}")
         except Exception:
             logging.exception(f"Failed scraping for country='{country}' indicator='{indicator}'")
 

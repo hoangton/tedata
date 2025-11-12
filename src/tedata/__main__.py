@@ -39,6 +39,7 @@ def main():
     # Parse arguments
     args = parser.parse_args()
     
+    result = None
     try:
         # Run scraper
         result = scrape_chart(url=args.url, use_existing_driver = False, headless=args.head, method=args.method)
@@ -61,9 +62,18 @@ def main():
             
     except Exception as e:
         print(f"Error: {str(e)}")
-
-    result.close()
-    del result
+    finally:
+        # Clean up only if result was created successfully
+        if result is not None:
+            try:
+                result.close()
+            except Exception:
+                # Ignore any errors during close - we've already reported scraping/runtime errors above
+                pass
+            try:
+                del result
+            except Exception:
+                pass
 
 if __name__ == '__main__':
     main()
