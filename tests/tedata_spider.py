@@ -15,7 +15,7 @@ wd = os.path.dirname(__file__)
 fdel = os.path.sep
 
 
-with open(os.path.join(wd, "country.txt"), "r", encoding="utf-8") as f:
+with open(os.path.join(wd, "country1.txt"), "r", encoding="utf-8") as f:
     countries = [line.strip() for line in f if line.strip()]
 
 with open(os.path.join(wd, "indicator.txt"), "r", encoding="utf-8") as f:
