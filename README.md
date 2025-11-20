@@ -1,6 +1,7 @@
 ## env
 uv python install 3.12
 uv venv -p 3.12 .venv
+source .venv/bin/activate
 uv pip install tedata
 python3 -m pip install tedata
 python3 -m tedata -h
