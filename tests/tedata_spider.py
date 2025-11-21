@@ -59,8 +59,10 @@ for country in countries:
                     ted.find_active_drivers(close_all_drivers=True, close__all_scrapers=True)
                 except Exception:
                     logging.exception(f"Failed to cleanup drivers after exporting {filename_base}")
+            ted.find_active_drivers(close_all_drivers=True, close__all_scrapers=True)
         except Exception:
             logging.exception(f"Failed scraping for country='{country}' indicator='{indicator}'")
-
+            ted.find_active_drivers(close_all_drivers=True, close__all_scrapers=True)
+    ted.find_active_drivers(close_all_drivers=True, close__all_scrapers=True)
 # cleanup drivers after run
 ted.find_active_drivers(close_all_drivers=True, close__all_scrapers=True)
