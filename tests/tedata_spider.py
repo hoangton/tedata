@@ -30,6 +30,8 @@ for country in countries:
     country_sql_path = os.path.join(wd, country_sql_filename)
     try:
         with open(country_sql_path, 'w', encoding='utf-8') as cf:
+            cf.write("USE [BRG];\n")
+            cf.write("GO\n")
             cf.write("DECLARE @countryId INT, @IndicatorId INT;\n")
             cf.write(f"SELECT @countryId = CountryID FROM Countries WHERE Slug = '{country}';\n\n")
     except Exception:
